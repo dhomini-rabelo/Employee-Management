@@ -15,11 +15,11 @@ class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppF
         assert_folder_existence(self.path)
         self.response = lambda message: response(message, entity=app)
         self.spaces = lambda text_list, spaces: list(map(lambda text: f'{sp(spaces)}{text}', text_list))
-        self.init = Editor(self.path, 'app\__init__.py')
-        self.admin = Editor(self.path, r'app\admin.py')
-        self.models = Editor(self.path, 'app\models.py')
+        self.init = Editor(self.path, 'app/__init__.py')
+        self.admin = Editor(self.path, r'app/admin.py')
+        self.models = Editor(self.path, 'app/models.py')
         self.views = Editor(self.path, 'views.py')
-        self.settings = Editor(self.base_path, f'{project_name}\settings.py')
+        self.settings = Editor(self.base_path, f'{project_name}/settings.py')
     
     def config_app(self):
         settings = [

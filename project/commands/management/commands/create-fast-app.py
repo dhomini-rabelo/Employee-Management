@@ -21,7 +21,7 @@ class Command(BasicCommand):
         new_app_path.mkdir()
         self.create_app_folders(new_app_path)
         self.create_app_archives(new_app_path)
-        app = DjangoApp(str(settings.BASE_DIR), f'backend/{options["app_name"]}', options['app_name'], settings.PROJECT_NAME)
+        app = DjangoApp('./project', f'backend/{options["app_name"]}', options['app_name'], settings.PROJECT_NAME)
         app.create_url_archive()
         app.start_files()
         app.import_for_model()
