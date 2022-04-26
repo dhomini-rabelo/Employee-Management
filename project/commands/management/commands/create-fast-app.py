@@ -5,7 +5,6 @@ from django.conf import settings
 from pathlib import Path
 from directory_tree import display_tree
 
-
     
 
 
