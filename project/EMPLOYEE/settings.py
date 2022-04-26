@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'backend.accounts.app.AccountsConfig',
     # Others apps
     'commands.CommandsConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -66,9 +67,21 @@ WSGI_APPLICATION = 'EMPLOYEE.wsgi.application'
 
 
 DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "db",
+        "PORT": 5432,
+    },
+}
+
+
+CACHES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
     }
 }
 

@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    path('employees', views.EmployeeSerializer),
+    path('employees', views.EmployeeCreateAndListView.as_view()),
 ]
