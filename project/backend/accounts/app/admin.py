@@ -16,5 +16,5 @@ class UserAdmin(auth_admin.UserAdmin):
     fieldsets = auth_admin.UserAdmin.fieldsets + (
     ("My fields", {"fields": ("name",)}),
     )
-    list_display = 'first_name', 'username'
-    list_display_links = 'first_name', 'username'
+    list_display = 'id', 'username'
+    list_display_links = 'id', 'username'

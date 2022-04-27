@@ -6,4 +6,4 @@ from backend.employees.app.models import Employee
 
 class EmployeeCreateAndListView(generics.ListCreateAPIView):
     serializer_class = EmployeeSerializer
-    queryset = Employee.objects.order_by('name')
+    queryset = Employee.objects.order_by('id')

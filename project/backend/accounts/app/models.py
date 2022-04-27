@@ -4,7 +4,7 @@ from django.db.models import (Model, CharField, DateTimeField, TextField, EmailF
 
 
 class User(AbstractUser):
-    name = CharField(verbose_name='Nome', max_length=256, blank=True, null=True)
+    name = CharField(max_length=256, blank=True, null=True)
 
     def __str__(self):
         return self.username
