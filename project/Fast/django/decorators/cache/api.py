@@ -9,13 +9,24 @@ def global_cache_page(cache_timeout: int):
     def decorator_function(view_function):
         def wrapper_function(*args, **kwargs):
             request = args[0]
-            if cache.get(request.get_path()) is None:
+            if cache.get(request.path) is None:
                 response = view_function(*args, **kwargs)
-                cache.set(request.get_path(), response.data, cache_timeout)
+                cache.set(request.path, response.data, cache_timeout)
                 return response
-            return Response(cache.get(request.get_path()))
+            return Response(cache.get(request.path))
         return wrapper_function
     return decorator_function
+
+
+def static_global_cache_page_renewable(view_function):
+    def wrapper_function(*args, **kwargs):
+        request = args[0]
+        if cache.get(request.path) is None:
+            response = view_function(*args, **kwargs)
+            cache.set(request.path, response.data, None)
+            return response
+        return Response(cache.get(request.path))
+    return wrapper_function
 
 
 def double_cache_page(cache_timeout: int):
@@ -23,11 +34,11 @@ def double_cache_page(cache_timeout: int):
         @cache_page(cache_timeout)
         def wrapper_function(*args, **kwargs):
             request = args[0]
-            if cache.get(request.get_path()) is None:
+            if cache.get(request.path) is None:
                 response = view_function(*args, **kwargs)
-                cache.set(request.get_path(), response.data, cache_timeout)
+                cache.set(request.path, response.data, cache_timeout)
                 return response
-            return Response(cache.get(request.get_path()))
+            return Response(cache.get(request.path))
         return wrapper_function
     return decorator_function
 
@@ -37,11 +48,11 @@ def super_cache_page(global_cache_timeout: int, browser_cache_timeout: int):
         @cache_page(browser_cache_timeout)
         def wrapper_function(*args, **kwargs):
             request = args[0]
-            if cache.get(request.get_path()) is None:
+            if cache.get(request.path) is None:
                 response = view_function(*args, **kwargs)
-                cache.set(request.get_path(), response.data, global_cache_timeout)
+                cache.set(request.path, response.data, global_cache_timeout)
                 return response
-            return Response(cache.get(request.get_path()))
+            return Response(cache.get(request.path))
         return wrapper_function
     return decorator_function
 
@@ -50,11 +61,11 @@ def static_page(view_function):
     @cache_page(settings.STATIC_PAGE_CACHE_TIMEOUT)
     def wrapper_function(*args, **kwargs):
         request = args[0]
-        if cache.get(request.get_path()) is None:
+        if cache.get(request.path) is None:
             response = view_function(*args, **kwargs)
-            cache.set(request.get_path(), response.data, None)
+            cache.set(request.path, response.data, None)
             return response
-        return Response(cache.get(request.get_path()))
+        return Response(cache.get(request.path))
     return wrapper_function
 
 
@@ -74,11 +85,11 @@ def control_cache_page(cache_timeout: int = 60*60*2):
         @renew_or_cache_page(cache_timeout)
         def wrapper_function(*args, **kwargs):
             request = args[0]
-            if cache.get(request.get_path()) is None or request.headers.get('renew') == settings.SECRET_KEY:
+            if cache.get(request.path) is None or request.headers.get('renew') == settings.SECRET_KEY:
                 response = view_function(*args, **kwargs)
-                cache.set(request.get_path(), response.data, None)
+                cache.set(request.path, response.data, None)
                 return response
-            return Response(cache.get(request.get_path()))
+            return Response(cache.get(request.path))
         return wrapper_function
     return decorator_function
     
