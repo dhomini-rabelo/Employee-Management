@@ -1,8 +1,10 @@
+from types import FunctionType
 from django.core.cache import cache
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
 from django.conf import settings
 from rest_framework.response import Response
+from Fast.django.decorators.cache.support import save_cache_list
 
 
 def global_cache_page(cache_timeout: int):
@@ -18,18 +20,42 @@ def global_cache_page(cache_timeout: int):
     return decorator_function
 
 
-def static_global_cache_page_renewable(view_function):
+def static_global_cache_page_renewable(cache_list_name: str):
     """
-    Create global cache page without timeout
+    Create global cache page without timeout and dinamic url
     """
-    def wrapper_function(*args, **kwargs):
-        request = args[0]
-        if cache.get(request.path) is None:
-            response = view_function(*args, **kwargs)
-            cache.set(request.path, response.data, None)
-            return response
-        return Response(cache.get(request.path))
-    return wrapper_function
+    def decorator_function(view_function):
+        def wrapper_function(*args, **kwargs):
+            request = args[0]
+            if cache.get(request.path) is None:
+                response = view_function(*args, **kwargs)
+                cache.set(request.path, response.data, None)
+                save_cache_list(cache_list_name, request.path)
+                return response
+            return Response(cache.get(request.path))
+        return wrapper_function
+    return decorator_function
+
+
+def dinamic_global_cache_page_renewable(cache_list_name: str, group_name: str, get_name_id: FunctionType):
+    """
+    Create global cache page for dinamic url without timeout
+    """
+    def decorator_function(view_function):
+        def wrapper_function(*args, **kwargs):
+            request = args[0]
+            cache_group = cache.get(group_name) or {}
+            name_id = get_name_id(request)
+            
+            if cache_group.get(name_id) is None:
+                response = view_function(*args, **kwargs)
+                cache.set(group_name, {**cache_group, name_id: response.data}, None)
+                save_cache_list(cache_list_name, group_name)
+                return response
+
+            return Response(cache_group.get(name_id))
+        return wrapper_function
+    return decorator_function
 
 
 def double_cache_page(cache_timeout: int):
