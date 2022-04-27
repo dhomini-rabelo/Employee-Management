@@ -1,0 +1,5 @@
+docker-compose run web python3.10 project/manage.py test backend --pattern="*_t.py"
+
+or
+
+docker-compose run web python3.10 project/manage.py test backend --pattern="*_t.py" --failfast
