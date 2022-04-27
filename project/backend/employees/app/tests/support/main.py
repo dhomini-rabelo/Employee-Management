@@ -2,6 +2,8 @@ from django.test import TestCase, Client
 from unittest import expectedFailure
 from ...models import Department, Employee
 from random import randint
+from django.db.models import Model
+
 
 class BaseClassForTest(TestCase):
 

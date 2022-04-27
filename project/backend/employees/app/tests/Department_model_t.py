@@ -1,4 +1,3 @@
-from django.test import TestCase
 from unittest import expectedFailure
 from .support.main import BaseClassForTest
 from ..models import Department, Employee
@@ -12,16 +11,22 @@ class DepartmentModelTest(BaseClassForTest):
 
     @expectedFailure
     def test_name_error_for_max_size(self):
-        self.department_1 = 'x' * 257
+        self.department_1.name = 'x' * 257
         self.department_1.save()
 
     @expectedFailure
-    def test_name_error_for_null_string(self):
-        self.department_1 = ''
+    def test_name_error_for_null_value(self):
+        self.department_1.name = None
         self.department_1.save()
 
     def test_str_method(self):
         self.assertEqual(str(self.department_1), self.department_1.name)
+
+    def test_change_value(self):
+        new_value = 'new_value'
+        self.department_1.name = new_value
+        self.department_1.save()
+        self.assertEqual(new_value, self.department_1.name)
 
     def test_many_to_one_relationship_with_Employee_model(self):
         self.assertEqual(list(self.department_1.employees.all()), list(Employee.objects.filter(department__id=self.department_1.id)))
