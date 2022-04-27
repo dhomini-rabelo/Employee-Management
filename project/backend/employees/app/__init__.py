@@ -6,3 +6,9 @@ class EmployeesConfig(AppConfig):
     name = 'backend.employees.app'
     verbose_name = 'employees'
     label = 'employees'
+
+    def ready(self):
+        """
+        Active signals in employees.app.signals
+        """
+        import backend.employees.app.signals

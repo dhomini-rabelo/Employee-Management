@@ -19,6 +19,9 @@ def global_cache_page(cache_timeout: int):
 
 
 def static_global_cache_page_renewable(view_function):
+    """
+    Create global cache page without timeout
+    """
     def wrapper_function(*args, **kwargs):
         request = args[0]
         if cache.get(request.path) is None:

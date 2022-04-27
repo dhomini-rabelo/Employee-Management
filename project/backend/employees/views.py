@@ -13,6 +13,6 @@ class EmployeeCreateAndListView(generics.ListCreateAPIView):
     queryset = Employee.objects.order_by('id')
     renderer_classes = [JSONRenderer, ApiWithSimpleDRFView]
 
-    @method_decorator(static_global_cache_page_renewable)
+    @method_decorator(static_global_cache_page_renewable) # data is renewed with signals
     def get(self, request: HttpRequest):
         return super().get(request)    
