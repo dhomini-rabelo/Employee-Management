@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, date
+from datetime import datetime
 from django.http import HttpRequest
 from rest_framework.response import Response
 from rest_framework import generics
@@ -9,10 +9,7 @@ from backend.employees.actions.objects.serializers import EmployeeSerializer
 from backend.employees.app.models import Employee
 from rest_framework.renderers import JSONRenderer
 from django.utils.decorators import method_decorator
-from django.db.models import Q, F, Avg
-from django.db import models
-from django.db.models import IntegerField, ExpressionWrapper, F, DateTimeField, FloatField, BigIntegerField
-
+from django.db.models import F, Avg
 
 
 EMPLOYEE_CACHE_LIST = 'employee_cache' # data is renewed with signals post_save
@@ -42,6 +39,7 @@ class EmployeeDetailView(generics.RetrieveUpdateDestroyAPIView):
 class AgeReportView(APIView):
     renderer_classes = [JSONRenderer, ApiWithSimpleDRFView]
 
+    @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
     def get(self, request):
         now = datetime.now().date()
         employees_with_life_seconds = Employee.objects.annotate(life_seconds=(now - F('birth_date'))).order_by('life_seconds')
