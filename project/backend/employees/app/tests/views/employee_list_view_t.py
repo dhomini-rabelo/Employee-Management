@@ -91,6 +91,14 @@ class EmployeeListViewTest(BaseClassForTest):
         self.assertEqual(request.status_code, 400)
         self.assertEqual('Date has wrong format. Use one of these formats instead: DD-MM-YYYY, YYYY-MM-DD.', str(request.data['birth_date'][0]))
 
+    def test_error_reqquired_fields(self):
+        data = {}
+        request = self.client.post(self.path, data=data, content_type='application/json')
+        self.assertEqual(request.status_code, 400)
+        error_list = list(map(lambda key: str(key[0]), list(request.data.values())))
+        error_message = 'This field is required.'
+        required_list_error = [error_message, error_message, error_message, error_message]  # for name, email, salary, birth_date    
+        self.assertEqual(required_list_error, error_list)
 
 
 
