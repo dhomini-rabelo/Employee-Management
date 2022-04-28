@@ -53,3 +53,21 @@ class AgeReportView(APIView):
         }
 
         return Response(response)
+
+
+class SalaryReportView(APIView):
+    renderer_classes = [JSONRenderer, ApiWithSimpleDRFView]
+
+    @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
+    def get(self, request):
+        employees = Employee.objects.order_by('-salary')
+        lowest, highest = employees.last(), employees.first()
+        average = employees.aggregate(average=Avg('salary'))['average'] # Decimal or None
+
+        response = {
+            'lowest': EmployeeSerializer(lowest).data if lowest else None,
+            'highest': EmployeeSerializer(highest).data if highest else None,
+            'average': str(round(average, 2)) if average else "0.00",
+        }
+
+        return Response(response)
