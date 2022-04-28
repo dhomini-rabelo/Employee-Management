@@ -1,7 +1,7 @@
 from unittest import expectedFailure
 from backend.employees.actions.objects.serializers import EmployeeSerializer
-from .support.main import BaseClassForTest
-from ..models import Department, Employee
+from ..support.main import BaseClassForTest
+from ...models import Department, Employee
 from decimal import Decimal
 
 

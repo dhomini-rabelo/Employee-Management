@@ -1,6 +1,6 @@
 from unittest import expectedFailure
-from .support.main import BaseClassForTest
-from ..models import Department, Employee
+from ..support.main import BaseClassForTest
+from ...models import Department, Employee
 
 
 class DepartmentModelTest(BaseClassForTest):
