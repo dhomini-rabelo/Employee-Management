@@ -3,6 +3,8 @@ from unittest import expectedFailure
 from ...models import Department, Employee
 from random import randint
 from django.db.models import Model
+from decimal import Decimal
+from datetime import date
 
 
 class BaseClassForTest(TestCase):
@@ -20,7 +22,10 @@ class BaseClassForTest(TestCase):
                 name=f'test_employee_{counter}',
                 email=f'test_employee_{counter}@ssys.com.br',
                 department=employee_department,
-                salary=f'{randint(1, 5000)}.00',
-                birth_date=f'{randint(1975, 2005)}-{randint(1, 12)}-{randint(1, 28)}'
+                salary=Decimal(f'{randint(1, 5000)}.00'),
+                birth_date=date(randint(1975, 2005), randint(1, 12), randint(1, 28))
             )
             setattr(self, f'employee_{counter}', new_employee)
+
+    def adapt_date_number(self, number: int):
+        return str(number) if number >= 10 else f'0{number}'
