@@ -43,9 +43,8 @@ def dinamic_global_cache_page_renewable(cache_list_name: str, group_name: str, g
     """
     def decorator_function(view_function):
         def wrapper_function(*args, **kwargs):
-            request = args[0]
             cache_group = cache.get(group_name) or {}
-            name_id = get_name_id(request)
+            name_id = get_name_id(*args, **kwargs)
             
             if cache_group.get(name_id) is None:
                 response = view_function(*args, **kwargs)
