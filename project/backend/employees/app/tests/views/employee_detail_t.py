@@ -12,7 +12,7 @@ class EmployeeDetailViewTest(BaseClassForTest):
     def setUpTestData(cls):
         cls.create_models(cls)
         cls.client = Client()
-        cls.path = f'/employees/{cls.employee_1.id}'
+        cls.path = f'/employees/{cls.employee_1.id}/'
         cls.request = cls.client.get(cls.path)
         cls.valid_data = {
             'id': cls.employee_1.id,
@@ -51,7 +51,7 @@ class EmployeeDetailViewTest(BaseClassForTest):
         self.assertEqual(request.data['birth_date'], data['birth_date'])
 
     def test_delete_method(self):
-        request = self.client.delete(f'/employees/{self.employee_2.id}', content_type='application/json')
+        request = self.client.delete(f'/employees/{self.employee_2.id}/', content_type='application/json')
         self.assertEqual(request.status_code, 204) # 204 - NO CONTENT
 
     def test_error_is_required_in_put_method(self):

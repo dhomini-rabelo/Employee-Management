@@ -11,7 +11,7 @@ class EmployeeListViewTest(BaseClassForTest):
     def setUpTestData(cls):
         cls.create_models(cls)
         cls.client = Client()
-        cls.path = '/employees'
+        cls.path = '/employees/'
         cls.request = cls.client.get(cls.path)
         cls.valid_data = {
             'name': 'test',
