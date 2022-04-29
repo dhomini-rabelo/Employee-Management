@@ -1,20 +1,25 @@
 from unittest import expectedFailure
 from Fast.utils.main import d2, if_none
 from backend.employees.actions.objects.serializers import EmployeeSerializer
-from ..support.main import BaseClassForTest
+from ..support.main import BaseClassForTest, ViewBaseForTest
 from django.test import Client
 from ...models import Department, Employee
 from django.db.models import F, Avg, Max, Min, Sum
 
 
-class SalaryReportViewTest(BaseClassForTest):
+class SalaryReportViewTest(ViewBaseForTest):
 
     @classmethod
     def setUpTestData(cls):
         cls.create_models(cls)
         cls.client = Client()
+        cls.create_user(cls, 'salary_report', '123456')
+        cls.header = cls.get_default_header(cls)
         cls.path = f'/reports/employees/salary/'
-        cls.request = cls.client.get(cls.path)
+        cls.request = cls.client.get(cls.path, **cls.header)
+
+    def test_jwt_authentication(self):
+        super().view_test_jwt_authentication()
 
     def test_status(self):
         self.assertEqual(self.request.status_code, 200) # 200 - OK

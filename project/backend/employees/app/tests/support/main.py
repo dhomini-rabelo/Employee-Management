@@ -6,7 +6,7 @@ from random import randint
 from django.db.models import Model
 from decimal import Decimal
 from datetime import date
-
+from backend.accounts.app.models import User
 
 class BaseClassForTest(TestCase):
 
@@ -30,6 +30,24 @@ class BaseClassForTest(TestCase):
 
     def adapt_date_number(self, number: int):
         return str(number) if number >= 10 else f'0{number}'
+
+
+
+class ViewBaseForTest(BaseClassForTest):
+
+    def view_test_jwt_authentication(self):
+        request = self.client.get(self.path)
+        self.assertEqual(request.status_code, 401) # 401 - UNAUTHORIZED
+
+    def create_user(self, username, password):
+        self.username, self.password = username, password
+        user = User(username=self.username)
+        user.set_password(self.password)
+        user.save()
+
+    def get_default_header(self):
+        request = self.client.post('/token/', data={'username': self.username, 'password': self.password})
+        return {'content_type': 'application/json', 'HTTP_AUTHORIZATION': f'Bearer {request.data["access"]}'}
 
     @classmethod
     def tearDownClass(cls):
