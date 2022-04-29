@@ -1,15 +1,19 @@
-from datetime import datetime
-from django.http import HttpRequest
-from rest_framework.response import Response
-from rest_framework import generics
-from Fast.django.decorators.cache.api import static_global_cache_page_renewable, dinamic_global_cache_page_renewable
-from Fast.utils.main import d2
+# this backend
 from backend.employees.actions.objects.serializers import EmployeeSerializer
 from backend.employees.actions.objects.views import SimpleApiWithAuthentication
 from backend.employees.app.models import Employee
+# django rest framework
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework import generics
+# django
+from django.http import HttpRequest
 from django.utils.decorators import method_decorator
 from django.db.models import F, Avg
+# support
+from Fast.django.decorators.cache.api import static_global_cache_page_renewable, dinamic_global_cache_page_renewable
+from Fast.utils.main import d2
+from datetime import datetime
 
 
 EMPLOYEE_CACHE_LIST = 'employee_cache' # data is renewed with signals post_save

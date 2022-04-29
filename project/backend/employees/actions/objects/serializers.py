@@ -1,3 +1,4 @@
+from django.http import QueryDict
 from rest_framework import serializers
 from backend.employees.app.models import Department, Employee
 from rest_framework.fields import empty
@@ -10,7 +11,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     birth_date = serializers.DateField(format=settings.DATE_FIELD_FORMAT_IN_API, input_formats=[settings.DATE_FIELD_FORMAT_IN_API, 'iso-8601'])
 
     def __init__(self, instance=None, data=empty, **kwargs):
-        if (data is not empty) and (isinstance(data.get('department'), str)):
+        if (data is not empty) and (not isinstance(data, QueryDict)) and (isinstance(data.get('department'), str)):
             """
             This condition is used for create a new serializer with department field as string, also works with int type
             """
