@@ -1,0 +1,16 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+<h1 id="head" style="display: inline-block;">
+    <a href="/admin">
+        <div class="logo">
+            <img src="/static/media/logo.png" alt="logo">
+        </div>
+    </a>
+</h1>
+{%endblock%}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="/static/styles/bases/core/admin.css">
+{% endblock %}

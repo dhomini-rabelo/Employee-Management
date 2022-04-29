@@ -2,8 +2,7 @@ from datetime import datetime
 from django.http import HttpRequest
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.views import APIView
-from Fast.api.renderers import ApiWithSimpleDRFView
+from Fast.api.views.renderers import SimpleJsonApi
 from Fast.django.decorators.cache.api import static_global_cache_page_renewable, dinamic_global_cache_page_renewable
 from Fast.utils.main import d2
 from backend.employees.actions.objects.serializers import EmployeeSerializer
@@ -19,7 +18,7 @@ EMPLOYEE_CACHE_LIST = 'employee_cache' # data is renewed with signals post_save
 class EmployeeCreateAndListView(generics.ListCreateAPIView):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.order_by('id')
-    renderer_classes = [JSONRenderer, ApiWithSimpleDRFView]
+    renderer_classes = [JSONRenderer]
 
     @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
     def get(self, request: HttpRequest):
@@ -29,7 +28,7 @@ class EmployeeCreateAndListView(generics.ListCreateAPIView):
 class EmployeeDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.order_by('id')
-    renderer_classes = [JSONRenderer, ApiWithSimpleDRFView]
+    renderer_classes = [JSONRenderer]
     get_name_id = lambda request, pk : f'employee_{pk}'
 
     @method_decorator(dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, 'employee_detail', get_name_id))
@@ -37,8 +36,7 @@ class EmployeeDetailView(generics.RetrieveUpdateDestroyAPIView):
         return super().get(request, pk)
 
 
-class AgeReportView(APIView):
-    renderer_classes = [JSONRenderer, ApiWithSimpleDRFView]
+class AgeReportView(SimpleJsonApi):
 
     @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
     def get(self, request):
@@ -56,8 +54,7 @@ class AgeReportView(APIView):
         return Response(response)
 
 
-class SalaryReportView(APIView):
-    renderer_classes = [JSONRenderer, ApiWithSimpleDRFView]
+class SalaryReportView(SimpleJsonApi):
 
     @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
     def get(self, request):
