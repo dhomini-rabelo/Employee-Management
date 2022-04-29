@@ -1,5 +1,5 @@
 from unittest import expectedFailure
-from Fast.utils.main import if_none
+from Fast.utils.main import d2, if_none
 from backend.employees.actions.objects.serializers import EmployeeSerializer
 from ..support.main import BaseClassForTest
 from django.test import Client
@@ -26,7 +26,7 @@ class SalaryReportViewTest(BaseClassForTest):
         employee_highest = employees.filter(id=self.request.data['highest']['id']).first()
         employee_lowest = employees.filter(id=self.request.data['lowest']['id']).first()
 
-        self.assertEqual(self.request.data['average'], str(round(report['average_salary'], 2)))
+        self.assertEqual(self.request.data['average'], d2(report['average_salary']))
         self.assertEqual(employee_highest.salary if employee_highest else None, report['max_salary'])
         self.assertEqual(employee_lowest.salary if employee_lowest else None, report['min_salary'])
 

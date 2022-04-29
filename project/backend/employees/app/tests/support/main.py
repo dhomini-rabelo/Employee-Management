@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from unittest import expectedFailure
+from backend.employees.app.signals import renew_employee_apis_cache
 from ...models import Department, Employee
 from random import randint
 from django.db.models import Model
@@ -29,3 +30,8 @@ class BaseClassForTest(TestCase):
 
     def adapt_date_number(self, number: int):
         return str(number) if number >= 10 else f'0{number}'
+
+    @classmethod
+    def tearDownClass(cls):
+        # clear cache
+        renew_employee_apis_cache(None, None, None)

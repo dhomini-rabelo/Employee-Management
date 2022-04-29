@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from Fast.api.renderers import ApiWithSimpleDRFView
 from Fast.django.decorators.cache.api import static_global_cache_page_renewable, dinamic_global_cache_page_renewable
+from Fast.utils.main import d2
 from backend.employees.actions.objects.serializers import EmployeeSerializer
 from backend.employees.app.models import Employee
 from rest_framework.renderers import JSONRenderer
@@ -49,7 +50,7 @@ class AgeReportView(APIView):
         response = {
             'younger': EmployeeSerializer(younger).data if younger else None, # None to json is null
             'older': EmployeeSerializer(older).data if older else None,
-            'average': str(round(average.days / 365.25, 2)) if average else "0.00",
+            'average': d2(average.days / 365.25) if average else "0.00", # convert life seconds ( timedelta ) for years or return "0.00"
         }
 
         return Response(response)
@@ -67,7 +68,7 @@ class SalaryReportView(APIView):
         response = {
             'lowest': EmployeeSerializer(lowest).data if lowest else None,
             'highest': EmployeeSerializer(highest).data if highest else None,
-            'average': str(round(average, 2)) if average else "0.00",
+            'average': d2(average) if average else "0.00",
         }
 
         return Response(response)

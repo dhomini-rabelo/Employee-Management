@@ -1,7 +1,8 @@
 # this module
+from decimal import Decimal
 from .functions_dict import filters_functions
 # others
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from collections.abc import Mapping
 from typing import Any
 
@@ -45,13 +46,18 @@ def if_none(obj: Any, new_value: Any):
     return obj
 
 
+def d2(value: int | float | Decimal):
+    """
+    returns value as string with 2 decimal places
+    """
+    return str(round(value, 2))
 
 
-def get_age(date: str):
-    input_date = datetime.strptime(date, '%d/%m/%Y') 
-    today_date = datetime.now()
-    difference = today_date - input_date
-    return int(difference.days/365.25)
+def get_age(date_: date, int_response: bool = True) -> int | float:
+    now_date = datetime.now().date()
+    difference: timedelta = now_date - date_
+    expression = difference.days / 365.25
+    return int(expression) if int_response else expression
 
 
 
