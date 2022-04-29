@@ -1,4 +1,4 @@
-from django.http import QueryDict
+from django.http import QueryDict # is used in request.POST from browser and is immutable
 from rest_framework import serializers
 from backend.employees.app.models import Department, Employee
 from rest_framework.fields import empty
