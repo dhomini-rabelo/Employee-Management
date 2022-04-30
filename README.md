@@ -99,6 +99,14 @@
 <img src="./readme/views/employee_detail.PNG">
 
 <br>
+<h3>• /departments</h3>
+<img src="./readme/views/departments.PNG">
+
+<br>
+<h3>• /departments/ID</h3>
+<img src="./readme/views/department_detail.PNG">
+
+<br>
 <h3>• /reports/employees/age</h3>
 <img src="./readme/views/age_report.PNG">
 
@@ -133,6 +141,7 @@
 
 <br>
 <h2 id="how-to-start">🎓 How to start</h2>
+<p>This project use docker for simulate production environment. You can use project without docker, deleting setting.CACHES and replacing postgresql for sqlite in settings.DATABASES</p>
 <br>
 
 <h3>• Make migrations</h3>
@@ -255,12 +264,32 @@ docker-compose down
 <br>
 <hr>
 <p>GET | PUT | PATCH | DELETE</p>
-<p>/employees/[ID]</p>
+<p>/employees/[ID]/</p>
 <p>GET: See the employee data corresponding to the id parameter</p>
 <p>PUT: Update employee data sending all fields</p>
 <p>PATCH: Update employee data sending your selected fields</p>
 <p>DELETE: delete employee</p>
 <img src="./readme/doc/routes/employee_detail.gif">
+<hr>
+
+<br>
+<hr>
+<p>GET | POST</p>
+<p>/departments/</p>
+<p>GET: List departments</p>
+<p>POST: Create department</p>
+<img src="./readme/doc/routes/departments.gif">
+<hr>
+
+<br>
+<hr>
+<p>GET | PUT | PATCH | DELETE</p>
+<p>/departments/[ID]/</p>
+<p>GET: See the department data corresponding to the id parameter</p>
+<p>PUT: Update department data sending all fields</p>
+<p>PATCH: Update department data sending your selected fields</p>
+<p>DELETE: delete department</p>
+<img src="./readme/doc/routes/department_detail.gif">
 <hr>
 
 <br>

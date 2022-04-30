@@ -1,7 +1,7 @@
 # this backend
-from backend.employees.actions.objects.serializers import EmployeeSerializer
+from backend.employees.actions.objects.serializers import DepartmentSerializer, EmployeeSerializer
 from backend.employees.actions.objects.views import SimpleApiWithAuthentication
-from backend.employees.app.models import Employee
+from backend.employees.app.models import Department, Employee
 # django rest framework
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -29,12 +29,32 @@ class EmployeeCreateAndListView(SimpleApiWithAuthentication, generics.ListCreate
         return super().get(request)    
 
 
+class DepartmentCreateAndListView(SimpleApiWithAuthentication, generics.ListCreateAPIView):
+    serializer_class = DepartmentSerializer
+    queryset = Department.objects.order_by('id')
+    renderer_classes = [JSONRenderer]
+
+    @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
+    def get(self, request: HttpRequest):
+        return super().get(request)    
+
+
 class EmployeeDetailView(SimpleApiWithAuthentication, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.order_by('id')
     get_name_id = lambda request, pk : f'employee_{pk}'
 
     @method_decorator(dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, 'employee_detail', get_name_id))
+    def get(self, request: HttpRequest, pk: int):
+        return super().get(request, pk)
+
+
+class DepartmentDetailView(SimpleApiWithAuthentication, generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = DepartmentSerializer
+    queryset = Department.objects.order_by('id')
+    get_name_id = lambda request, pk : f'department_{pk}'
+
+    @method_decorator(dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, 'department_detail', get_name_id))
     def get(self, request: HttpRequest, pk: int):
         return super().get(request, pk)
 
