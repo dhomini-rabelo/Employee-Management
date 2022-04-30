@@ -178,3 +178,11 @@ class EmployeeDetailViewTest(ViewBaseForTest):
         request = self.client.patch(self.path, data=data, **self.header)
         self.assertEqual(request.status_code, 400)
         self.assertEqual('Date has wrong format. Use one of these formats instead: DD-MM-YYYY, YYYY-MM-DD.', str(request.data['birth_date'][0]))
+
+    def test_error_required_fields(self):
+        serializer = EmployeeSerializer(data={})
+        self.assertFalse(serializer.is_valid())
+        error_list = list(map(lambda key: str(key[0]), list(serializer.errors.values())))
+        error_message = 'This field is required.'
+        required_list_error = [error_message, error_message, error_message, error_message]  # for name, email, salary, birth_date    
+        self.assertEqual(required_list_error, error_list)
