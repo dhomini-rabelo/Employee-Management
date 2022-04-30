@@ -13,7 +13,7 @@
     <li><a href="#performance">Performance</a></li>
     <li><a href="#admin">Custom admin</a></li>
 </ul>
-<li><a href="#project-doc">Project documentation</a></li>
+<li><a href="#project-doc">Project instructions</a></li>
 <ul>
     <li><a href="#how-to-start">How to start</a></li>
     <li><a href="#how-to-use">How to use</a></li>
@@ -49,7 +49,6 @@
 <br>
 
 <h3>🏷️ User - main fields</h3>
-<p>Used in authentication system and admin system</p>
 <ul>
 <li>Id</li>
 <li>Username</li>
@@ -76,9 +75,10 @@
 
 <br>
 <h2 id="project">🎥 See the project</h2>
+<p>This project is divided in employee routes, jwt routes and admin routes</p>
 <br>
 
-<br>
+
 <h2 id="routes-for-frontend">🔗 Routes for frontend</h2>
 <br>
 
@@ -122,11 +122,13 @@
 <br>
 <kbd><img src="./readme/views/admin_login.PNG"></kbd>
 <br>
+<br>
 <kbd><img src="./readme/views/admin_in.PNG"></kbd>
 <br>
 
 <br>
-<h2 id="project-doc">📖 Project documentation</h2>
+<br>
+<h2 id="project-doc">📖 Project instructions</h2>
 <br>
 
 <br>
@@ -151,8 +153,24 @@ docker-compose run web python3 project/manage.py createsuperuser
 
 <img src="./readme/doc/create_user.PNG">
 
-<h3>• Run project</h3>
+<h3>• Create virtual environment and use dependencies</h3>
+<br>
 
+```
+python3 -m venv venv
+```
+
+```
+pip install -r requirements.txt
+```
+
+```
+pip freeze > requirements.txt
+```
+
+
+<h3>• Run project</h3>
+<br>
 <p>Use when create or update dependencies</p>
 
 ```
@@ -188,67 +206,79 @@ docker-compose down
 <img src="./readme/doc/get_tokens.PNG">
 <br>
 
+<br>
+<br>
 <h3>• Access any frontend router sending your access token in header</h3>
 
 <br>
 <img src="./readme/doc/access.PNG">
 
 <br>
-<h3>• Refresh your access token in /token/refresh/</h3>
+<br>
+<h3>• Refresh your access token in /token/refresh/ when access token is expired</h3>
 
 <br>
 <img src="./readme/doc/refresh_token.PNG">
 
 
 <br>
+<br>
 <h2 id="routes">🔗 Routes</h2>
-<br>
+<p>All routes and your main http methods</p>
 
-<ul>
-
-<br>
-<hr>
-<p>POST</p>
-<li>/token/</li>
-<hr>
 
 <br>
 <hr>
 <p>POST</p>
-<li>/token/refresh/</li>
+<p>/token/</p>
+<p>Get refresh and access token</p>
+<img src="./readme/doc/routes/token.gif">
+<hr>
+
+<br>
+<hr>
+<p>POST</p>
+<p>/token/refresh/</p>
+<p>Refresh your access token</p>
+<img src="./readme/doc/routes/token_refresh.gif">
 <hr>
 
 <br>
 <hr>
 <p>GET | POST</p>
-<li>/employees/</li>
+<p>/employees/</p>
+<p>GET: List employees</p>
+<p>POST: Create employee</p>
+<img src="./readme/doc/routes/employees.gif">
 <hr>
 
 <br>
 <hr>
 <p>GET | PUT | PATCH | DELETE</p>
-<li>/employees/[ID]</li>
+<p>/employees/[ID]</p>
+<p>GET: See the employee data corresponding to the id parameter</p>
+<p>PUT: Update employee data sending all fields</p>
+<p>PATCH: Update employee data sending your selected fields</p>
+<p>DELETE: delete employee</p>
+<img src="./readme/doc/routes/employee_detail.gif">
 <hr>
 
 <br>
 <hr>
 <p>GET</p>
-<li>/reports/employees/age/</li>
+<p>/reports/employees/age/</p>
+<p>See age report</p>
+<img src="./readme/doc/routes/age_report.PNG">
 <hr>
 
 <br>
 <hr>
 <p>GET</p>
-<li>/reports/employees/salary/</li>
+<p>/reports/employees/salary/</p>
+<p>See salary report</p>
+<img src="./readme/doc/routes/salary_report.PNG">
 <hr>
 
-</ul>
-
-
-<br>
-<h2 id="serializer">🏷️ Serializer</h2>
-<br>
-<img src="./readme/doc/serializer.PNG">
 
 <br>
 <h2 id="tests">🧪 Tests</h2>
@@ -266,6 +296,7 @@ docker-compose run web python3.10 project/manage.py test backend --pattern="*_t.
 docker-compose run web python3.10 project/manage.py test backend --pattern="*_t.py" --failfast
 ```
 
+<br>
 <img src="./readme/doc/test.PNG">
 
 <h2>❌ End</h2>

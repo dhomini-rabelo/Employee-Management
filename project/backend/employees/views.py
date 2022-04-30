@@ -21,7 +21,7 @@ EMPLOYEE_CACHE_LIST = 'employee_cache' # data is renewed with signals post_save
 
 class EmployeeCreateAndListView(SimpleApiWithAuthentication, generics.ListCreateAPIView):
     serializer_class = EmployeeSerializer
-    queryset = Employee.objects.order_by('id')
+    queryset = Employee.objects.order_by('id').select_related('department')
     renderer_classes = [JSONRenderer]
 
     @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))

@@ -33,7 +33,7 @@ class AgeReportViewTest(ViewBaseForTest):
             age = get_age(employee.birth_date, False)
             ages.append(age)
 
-        average = d2(sum(ages) / len(ages)) if len(ages) > 0 else Decimal("0.00")
+        average = d2(sum(ages) / len(ages)) if len(ages) > 0 else "0.00"
         max_age = max(ages) if len(ages) > 0 else None
         min_age = min(ages) if len(ages) > 0 else None
 
