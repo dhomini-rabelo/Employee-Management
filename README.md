@@ -73,6 +73,8 @@
 <li>Birth date</li>
 </ul>
 
+<p>Department like FK is better than charfield because it has more control</p>
+
 <br>
 <h2 id="project">🎥 See the project</h2>
 <p>This project is divided in employee routes, jwt routes and admin routes</p>
@@ -116,7 +118,7 @@
 
 <br>
 <h2 id="performance">🚀 Performance</h2>
-<p>This project has cache system using Redis</p>
+<p>This project has cache system using Redis, caching views after first access and updating cache when data changes</p>
 <br>
 
 <h3>Local where show load time</h3>
