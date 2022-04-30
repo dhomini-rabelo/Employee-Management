@@ -46,7 +46,7 @@ class ViewBaseForTest(BaseClassForTest):
         user.save()
 
     def get_default_header(self):
-        request = self.client.post('/token/', data={'username': self.username, 'password': self.password})
+        request = self.client.post('/token/', data={'username': self.username, 'password': self.password}, content_type='application/json')
         return {'content_type': 'application/json', 'HTTP_AUTHORIZATION': f'Bearer {request.data["access"]}'}
 
     @classmethod

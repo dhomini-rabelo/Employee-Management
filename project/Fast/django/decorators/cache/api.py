@@ -26,12 +26,13 @@ def static_global_cache_page_renewable(cache_list_name: str):
     def decorator_function(view_function):
         def wrapper_function(*args, **kwargs):
             request = args[0]
-            if cache.get(request.path) is None:
+            path = request.path.replace('/', '')
+            if cache.get(path) is None:
                 response = view_function(*args, **kwargs)
-                cache.set(request.path, response.data, None)
-                save_cache_list(cache_list_name, request.path)
+                cache.set(path, response.data, None)
+                save_cache_list(cache_list_name, path)
                 return response
-            return Response(cache.get(request.path))
+            return Response(cache.get(path))
         return wrapper_function
     return decorator_function
 

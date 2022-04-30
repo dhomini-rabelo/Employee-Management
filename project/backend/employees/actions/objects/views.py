@@ -27,6 +27,5 @@ class CreateAndListViewWithAuthenticationAndEmployeeCache(SimpleApiWithAuthentic
 class DetailViewWithAuthenticationAndEmployeeCache(SimpleApiWithAuthentication, generics.RetrieveUpdateDestroyAPIView):
     get_name_id = lambda self, pk : f'{self.group_name}_{pk}'
 
-
     def get(self, request: HttpRequest, pk: int):
         return dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, self.group_name, self.get_name_id(pk))(super().get)(request, pk)

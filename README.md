@@ -146,6 +146,22 @@
 <p>This project use docker for simulate production environment. You can use project without docker, deleting setting.CACHES and replacing postgresql for sqlite in settings.DATABASES</p>
 <br>
 
+<h3>• Create virtual environment and use dependencies</h3>
+<p>Docker use requirements.txt for install dependencies</p>
+<br>
+
+```
+python3 -m venv venv
+```
+
+```
+pip install -r requirements.txt
+```
+
+```
+pip freeze > requirements.txt
+```
+
 <h3>• Make migrations</h3>
 
 ```
@@ -163,22 +179,6 @@ docker-compose run web python3 project/manage.py createsuperuser
 ```
 
 <img src="./readme/doc/create_user.PNG">
-
-<h3>• Create virtual environment and use dependencies</h3>
-<br>
-
-```
-python3 -m venv venv
-```
-
-```
-pip install -r requirements.txt
-```
-
-```
-pip freeze > requirements.txt
-```
-
 
 <h3>• Run project</h3>
 <br>
