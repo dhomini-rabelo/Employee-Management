@@ -1,62 +1,41 @@
 # this backend
 from backend.employees.actions.objects.serializers import DepartmentSerializer, EmployeeSerializer
-from backend.employees.actions.objects.views import SimpleApiWithAuthentication
+from backend.employees.actions.objects.views import (
+        DetailViewWithAuthenticationAndEmployeeCache, SimpleApiWithAuthentication, 
+        CreateAndListViewWithAuthenticationAndEmployeeCache, EMPLOYEE_CACHE_LIST
+)
 from backend.employees.app.models import Department, Employee
 # django rest framework
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from rest_framework import generics
 # django
-from django.http import HttpRequest
 from django.utils.decorators import method_decorator
 from django.db.models import F, Avg
 # support
-from Fast.django.decorators.cache.api import static_global_cache_page_renewable, dinamic_global_cache_page_renewable
+from Fast.django.decorators.cache.api import static_global_cache_page_renewable
 from Fast.utils.main import d2
 from datetime import datetime
 
 
-EMPLOYEE_CACHE_LIST = 'employee_cache' # data is renewed with signals post_save
-
-
-class EmployeeCreateAndListView(SimpleApiWithAuthentication, generics.ListCreateAPIView):
+class EmployeeCreateAndListView(CreateAndListViewWithAuthenticationAndEmployeeCache):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.order_by('id').select_related('department')
-    renderer_classes = [JSONRenderer]
-
-    @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
-    def get(self, request: HttpRequest):
-        return super().get(request)    
 
 
-class DepartmentCreateAndListView(SimpleApiWithAuthentication, generics.ListCreateAPIView):
+class DepartmentCreateAndListView(CreateAndListViewWithAuthenticationAndEmployeeCache):
     serializer_class = DepartmentSerializer
-    queryset = Department.objects.order_by('id')
-    renderer_classes = [JSONRenderer]
-
-    @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
-    def get(self, request: HttpRequest):
-        return super().get(request)    
+    queryset = Department.objects.order_by('id')   
 
 
-class EmployeeDetailView(SimpleApiWithAuthentication, generics.RetrieveUpdateDestroyAPIView):
+class EmployeeDetailView(DetailViewWithAuthenticationAndEmployeeCache):
     serializer_class = EmployeeSerializer
-    queryset = Employee.objects.order_by('id')
-    get_name_id = lambda request, pk : f'employee_{pk}'
-
-    @method_decorator(dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, 'employee_detail', get_name_id))
-    def get(self, request: HttpRequest, pk: int):
-        return super().get(request, pk)
+    queryset = Employee.objects.order_by('id').select_related('department')
+    group_name = 'employee_detail' # not use space
 
 
-class DepartmentDetailView(SimpleApiWithAuthentication, generics.RetrieveUpdateDestroyAPIView):
+class DepartmentDetailView(DetailViewWithAuthenticationAndEmployeeCache):
     serializer_class = DepartmentSerializer
     queryset = Department.objects.order_by('id')
-    get_name_id = lambda request, pk : f'department_{pk}'
-
-    @method_decorator(dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, 'department_detail', get_name_id))
-    def get(self, request: HttpRequest, pk: int):
-        return super().get(request, pk)
+    group_name = 'department_detail' # not use space
 
 
 class AgeReportView(SimpleApiWithAuthentication):

@@ -1,4 +1,3 @@
-from types import FunctionType
 from django.core.cache import cache
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
@@ -37,21 +36,18 @@ def static_global_cache_page_renewable(cache_list_name: str):
     return decorator_function
 
 
-def dinamic_global_cache_page_renewable(cache_list_name: str, group_name: str, get_name_id: FunctionType):
+def dinamic_global_cache_page_renewable(cache_list_name: str, group_name: str, name_id: str):
     """
     Create global cache page for dinamic url without timeout
     """
     def decorator_function(view_function):
         def wrapper_function(*args, **kwargs):
             cache_group = cache.get(group_name) or {}
-            name_id = get_name_id(*args, **kwargs)
-            
             if cache_group.get(name_id) is None:
                 response = view_function(*args, **kwargs)
                 cache.set(group_name, {**cache_group, name_id: response.data}, None)
                 save_cache_list(cache_list_name, group_name)
                 return response
-
             return Response(cache_group.get(name_id))
         return wrapper_function
     return decorator_function
