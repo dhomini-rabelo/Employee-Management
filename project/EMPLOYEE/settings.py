@@ -1,6 +1,7 @@
 from decouple import config
 from pathlib import Path
 from datetime import timedelta
+import django_on_heroku
 
 
 
@@ -85,7 +86,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
+        'LOCATION': config('REDIS_URL'),
     }
 }
 
@@ -181,3 +182,5 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=10),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+django_on_heroku.settings(locals())
