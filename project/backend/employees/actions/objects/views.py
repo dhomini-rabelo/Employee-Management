@@ -7,7 +7,7 @@ from django.http import HttpRequest
 from Fast.django.decorators.cache.api import static_global_cache_page_renewable, dinamic_global_cache_page_renewable
 
 
-EMPLOYEE_CACHE_LIST = 'employee_cache' # data is renewed with signals post_save
+EMPLOYEE_CACHE_LIST = 'employee_cache' # data is renewed with signals post_save and post_delete
 
 
 class SimpleApiWithAuthentication(APIView):
@@ -29,3 +29,10 @@ class DetailViewWithAuthenticationAndEmployeeCache(SimpleApiWithAuthentication, 
 
     def get(self, request: HttpRequest, pk: int):
         return dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, self.group_name, self.get_name_id(pk))(super().get)(request, pk)
+        # equal ↓↓↓↓↓↓↓ but with access child variables
+
+        """
+        @method_decorator(dinamic_global_cache_page_renewable(EMPLOYEE_CACHE_LIST, self.group_name, self.get_name_id(pk)))
+        def get(self, request: HttpRequest, pk: int):
+            return super().get(request, pk)
+        """

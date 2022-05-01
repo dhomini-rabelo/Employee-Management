@@ -25,6 +25,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
             msg = 'You must call `.is_valid()` before accessing `.errors`.'
             raise AssertionError(msg)
         
+        # create department error
         if self._errors.get('department') == [ErrorDetail(string='Invalid pk "0" - object does not exist.', code='does_not_exist')]:
             self._errors = {**self._errors, 'department': ['Department not found']}
         
