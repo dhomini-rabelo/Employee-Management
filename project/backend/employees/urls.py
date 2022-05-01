@@ -1,12 +1,26 @@
 from django.urls import path
-from . import views
+from .views import (
+    EmployeeCreateAndListView, DepartmentCreateAndListView, DepartmentDetailView,
+    AgeReportView, EmployeeDetailView, SalaryReportView,
+)
 
 
 urlpatterns = [
-    path('employees/', views.EmployeeCreateAndListView.as_view()),
-    path('departments/', views.DepartmentCreateAndListView.as_view()),
-    path('employees/<int:pk>/', views.EmployeeDetailView.as_view()),
-    path('departments/<int:pk>/', views.DepartmentDetailView.as_view()),
-    path('reports/employees/age/', views.AgeReportView.as_view()),
-    path('reports/employees/salary/', views.SalaryReportView.as_view()),
+    path('employees/', EmployeeCreateAndListView.as_view()),
+    path('employees', EmployeeCreateAndListView.as_view()),
+    
+    path('departments/', DepartmentCreateAndListView.as_view()),
+    path('departments', DepartmentCreateAndListView.as_view()),
+    
+    path('employees/<int:pk>/', EmployeeDetailView.as_view()),
+    path('employees/<int:pk>', EmployeeDetailView.as_view()),
+    
+    path('departments/<int:pk>/', DepartmentDetailView.as_view()),
+    path('departments/<int:pk>', DepartmentDetailView.as_view()),
+    
+    path('reports/employees/age/', AgeReportView.as_view()),
+    path('reports/employees/age', AgeReportView.as_view()),
+
+    path('reports/employees/salary/', SalaryReportView.as_view()),
+    path('reports/employees/salary', SalaryReportView.as_view()),
 ]

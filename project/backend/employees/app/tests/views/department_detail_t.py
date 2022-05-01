@@ -46,7 +46,8 @@ class DepartmentDetailViewTest(ViewBaseForTest):
         self.assertEqual(request.data['name'], data['name'])
 
     def test_delete_method(self):
-        request = self.client.delete(f'/departments/{self.department_2.id}/', **self.header)
+        path = self.path.replace(str(self.department_1.id), str(self.department_2.id))
+        request = self.client.delete(path, **self.header)
         self.assertEqual(request.status_code, 204) # 204 - NO CONTENT
 
     def test_put_error_required_name_field(self):

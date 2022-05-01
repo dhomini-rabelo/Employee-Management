@@ -55,7 +55,8 @@ class EmployeeDetailViewTest(ViewBaseForTest):
         self.assertEqual(request.data['birth_date'], data['birth_date'])
 
     def test_delete_method(self):
-        request = self.client.delete(f'/employees/{self.employee_2.id}/', **self.header)
+        path = self.path.replace(str(self.employee_1.id), str(self.employee_2.id))
+        request = self.client.delete(path, **self.header)
         self.assertEqual(request.status_code, 204) # 204 - NO CONTENT
 
     def test_error_is_required_in_put_method(self):
