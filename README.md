@@ -27,7 +27,7 @@
 
 <h2 id="about">📖 About</h2>
 
-<p>API for managing employees and for use with some frontend framework. Deploy url: https://employees-management-api.herokuapp.com/</p>
+<p>API for managing employees and for use with some frontend framework. Deploy url: https://employees-management-api.herokuapp.com/, you can access admin system as visit ( username: "visit", password: "null0000" ).</p>
 
 <br>
 <h2 id="tools">🛠️ Tools</h2>

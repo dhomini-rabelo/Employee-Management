@@ -1,5 +1,7 @@
 # this backend
 from django.http import HttpRequest
+from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 from backend.employees.actions.objects.serializers import DepartmentSerializer, EmployeeSerializer
 from backend.employees.actions.objects.views import (
         DetailViewWithAuthenticationAndEmployeeCache, SimpleApiWithAuthentication, 
@@ -15,6 +17,11 @@ from django.db.models import F, Avg
 from Fast.django.decorators.cache.api import static_global_cache_page_renewable
 from Fast.utils.main import d2
 from datetime import datetime
+
+
+@require_http_methods(['GET'])
+def home_page(request):
+    return render(request, 'pages/index.html')
 
 
 class EmployeeCreateAndListView(CreateAndListViewWithAuthenticationAndEmployeeCache):

@@ -1,11 +1,13 @@
 from django.urls import path
 from .views import (
     EmployeeCreateAndListView, DepartmentCreateAndListView, DepartmentDetailView,
-    AgeReportView, EmployeeDetailView, SalaryReportView,
+    AgeReportView, EmployeeDetailView, SalaryReportView, home_page,
 )
 
 
 urlpatterns = [
+    path('', home_page, name='home'),
+
     path('employees/', EmployeeCreateAndListView.as_view()),
     path('employees', EmployeeCreateAndListView.as_view()),
     
