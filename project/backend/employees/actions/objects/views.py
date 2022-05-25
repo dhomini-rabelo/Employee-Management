@@ -18,7 +18,7 @@ class SimpleApiWithAuthentication(APIView):
 
 class CreateAndListViewWithAuthenticationAndEmployeeCache(SimpleApiWithAuthentication, generics.ListCreateAPIView):
         
-    @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
+    # @method_decorator(static_global_cache_page_renewable(EMPLOYEE_CACHE_LIST))
     def get(self, request: HttpRequest):
         return super().get(request)
 
